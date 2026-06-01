@@ -48,3 +48,17 @@ textarea {
 #root {
   min-height: 100vh;
 }
+
+@keyframes fx-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.fx-marquee {
+  animation: fx-marquee 22s linear infinite;
+}
+

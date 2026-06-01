@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
+import MarketPricesBar from './MarketPricesBar.jsx'
 
 const contactDetails = [
   {
@@ -39,81 +40,61 @@ const experienceHighlights = [
   },
 ]
 
+const bankingInsights = [
+  {
+    title: 'Credit strategy',
+    text: 'Optimized loan and overdraft decisions that support growth without overleveraging.',
+  },
+  {
+    title: 'Wealth and savings',
+    text: 'Designing savings plans, cash buffers, and working capital for future needs.',
+  },
+  {
+    title: 'Digital banking',
+    text: 'Helping clients use banking tools securely and efficiently for everyday finance.',
+  },
+  {
+    title: 'Risk review',
+    text: 'Practical guidance to manage cash flow, rates, and financial exposure clearly.',
+  },
+]
+
+const trendingTopics = [
+  {
+    title: 'Interest cost planning',
+    text: 'Understand how rate changes may affect loan affordability and your next financial steps.',
+  },
+  {
+    title: 'Savings resilience',
+    text: 'Build cash buffers and liquidity plans that protect your personal or business finances.',
+  },
+  {
+    title: 'Digital banking safety',
+    text: 'Learn how secure, efficient digital tools can save time while protecting your money.',
+  },
+]
+
+const faqItems = [
+  {
+    question: 'What should I prepare for a banking consultation?',
+    answer: 'Bring your current goals, existing credit or savings structures, and any service pain points so the conversation is focused and practical.',
+  },
+  {
+    question: 'How can a banker help with loan or credit decisions?',
+    answer: 'A banker can review your borrowing options, help you compare costs, and align credit solutions with your cash flow and growth plans.',
+  },
+  {
+    question: 'Why is digital banking guidance important?',
+    answer: 'Digital banking tools can simplify everyday finance, improve security, and keep you connected to the right financial services faster.',
+  },
+]
+
 function App() {
-  const [currentView, setCurrentView] = useState('home')
-
-  useEffect(() => {
-    const syncView = () => {
-      setCurrentView(window.location.hash === '#schedule' ? 'schedule' : 'home')
-    }
-
-    syncView()
-    window.addEventListener('hashchange', syncView)
-
-    return () => window.removeEventListener('hashchange', syncView)
-  }, [])
+  const scheduleRef = useRef(null)
+  const [activeFaq, setActiveFaq] = useState(null)
 
   const goToSchedule = () => {
-    window.history.pushState({}, '', '#schedule')
-    setCurrentView('schedule')
-  }
-
-  const goHome = () => {
-    window.history.pushState({}, '', window.location.pathname)
-    setCurrentView('home')
-  }
-
-  if (currentView === 'schedule') {
-    return (
-      <div className='relative isolate overflow-hidden'>
-        <div className='pointer-events-none absolute inset-x-0 top-0 -z-10 h-72 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.24),transparent_28%),radial-gradient(circle_at_70%_5%,rgba(168,85,247,0.18),transparent_24%)]' />
-
-        <div className='min-h-screen px-6 py-8 sm:px-8 lg:px-10'>
-          <div className='mx-auto max-w-3xl'>
-            <section className='rounded-[30px] border border-white/10 bg-white/5 p-6 shadow-[0_30px_120px_rgba(11,18,32,0.45)] backdrop-blur-xl sm:p-8'>
-              <div className='space-y-6'>
-                <div className='flex items-center justify-between gap-4'>
-                  <p className='rounded-full border border-cyan-300/30 bg-white/10 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-cyan-100/90'>
-                    Schedule now
-                  </p>
-                  <button
-                    onClick={goHome}
-                    className='rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-white/90 transition hover:bg-white/10'
-                  >
-                    Back home
-                  </button>
-                </div>
-
-                <div className='space-y-3'>
-                  <h1 className='text-3xl font-semibold tracking-tight text-white sm:text-4xl'>
-                    Contact and booking details
-                  </h1>
-                  <p className='max-w-2xl text-sm leading-7 text-slate-200/80 sm:text-base'>
-                    Reach out directly or book time through Calendly to continue the conversation.
-                  </p>
-                </div>
-
-                <div className='grid gap-3'>
-                  {contactDetails.map((detail) => (
-                    <a
-                      key={detail.type}
-                      href={detail.href}
-                      target={detail.type === 'Calendly' ? '_blank' : undefined}
-                      rel={detail.type === 'Calendly' ? 'noreferrer' : undefined}
-                      className='rounded-3xl border border-white/10 bg-slate-950/70 p-5 transition hover:border-cyan-300/40 hover:bg-slate-950'
-                    >
-                      <p className='text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-100/80'>{detail.type}</p>
-                      <p className='mt-2 text-lg font-semibold text-white'>{detail.label}</p>
-                      <p className='mt-1 text-sm text-slate-300/85'>{detail.value}</p>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-      </div>
-    )
+    scheduleRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   return (
@@ -122,32 +103,72 @@ function App() {
 
       <div className='min-h-screen px-6 py-8 sm:px-8 lg:px-10'>
         <div className='mx-auto max-w-6xl'>
-          <header className='rounded-[30px] border border-white/10 bg-white/5 p-6 shadow-[0_30px_120px_rgba(11,18,32,0.45)] backdrop-blur-xl sm:p-8'>
-            <div className='flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between'>
-              <div className='space-y-6 text-center lg:text-left'>
-                <p className='mx-auto inline-flex rounded-full border border-cyan-300/30 bg-white/10 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-cyan-100/90 lg:mx-0'>
-                  Tabither Maguke
+          <header id='top' className='min-h-[68vh] flex items-center'>
+            <div className='w-full px-4'>
+              <div className='flex items-center justify-between mb-8'>
+                <p className='inline-flex rounded-full bg-white/10 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-cyan-100/90'>
+                  Tabison Enterprises
                 </p>
-                <div className='space-y-4'>
-                  <h1 className='mx-auto max-w-3xl text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:mx-0 lg:text-7xl'>
-                    Financial clarity for professionals.
-                  </h1>
-                  <p className='max-w-2xl text-base leading-7 text-slate-200/85 sm:text-lg'>
-                    Hello, I'm Tabither, a seasoned personal banker with over two decades experience in the banking industry. I specialize in providing tailored financial guidance and support to help you achieve your goals with confidence and clarity.
-                  </p>
+
+                <nav className='hidden sm:flex sm:flex-1 sm:justify-center gap-8 text-sm text-slate-200'>
+                  <a href='#top' className='transition hover:text-white'>Home</a>
+                  <a href='#about' className='transition hover:text-white'>About</a>
+                  <a href='#overview' className='transition hover:text-white'>Services</a>
+                </nav>
+
+                <div className='flex gap-3'>
+                  <button
+                    onClick={goToSchedule}
+                    className='inline-flex items-center justify-center rounded-full bg-cyan-300 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200'
+                  >
+                    Schedule now
+                  </button>
+                  <a href='#overview' className='inline-flex items-center justify-center rounded-full bg-white/5 px-4 py-2 text-sm font-semibold text-white/90 transition hover:bg-white/10'>
+                    Explore services
+                  </a>
                 </div>
               </div>
 
-              <div className='flex flex-col gap-3 sm:flex-row lg:flex-col'>
-                <a href='#consultation' className='inline-flex items-center justify-center rounded-full bg-cyan-300 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200'>
-                  Book a consultation
-                </a>
-                <a href='#overview' className='inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white/90 transition hover:bg-white/10'>
-                  Explore services
-                </a>
+              <div className='mx-auto max-w-3xl text-center'>
+                <h1 className='text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl'>
+                  Financial clarity for professionals.
+                </h1>
+                <p className='mt-4 text-base leading-7 text-slate-200/85 sm:text-lg'>
+                  Hello, I'm Tabither, a seasoned personal banker with over two decades experience in the banking industry. I specialize in providing tailored financial guidance and support to help you achieve your goals with confidence and clarity.
+                </p>
+
+                <div className='mt-6 flex items-center justify-center gap-4'>
+                  <a href='#overview' className='inline-flex items-center justify-center rounded-full bg-white/5 px-5 py-3 text-sm font-semibold text-white/90 transition hover:bg-white/10'>
+                    Services
+                  </a>
+                  <a href='#contact' className='inline-flex items-center justify-center rounded-full bg-slate-900/60 px-5 py-3 text-sm font-semibold text-white/90 transition hover:bg-slate-900/80'>
+                    Contact
+                  </a>
+                </div>
+
+                <div className='mt-8 grid gap-4 sm:grid-cols-2'>
+                  <div className='rounded-3xl bg-slate-950/60 p-5'>
+                    <p className='text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-100/80'>About</p>
+                    <p className='mt-2 text-sm text-slate-300/85'>Tabither combines deep banking experience with a personal, client-centered approach to help you choose the right financial path, manage risk, and prepare for what comes next.</p>
+                  </div>
+                  <div className='rounded-3xl bg-slate-950/60 p-5'>
+                    <p className='text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-100/80'>Quick services</p>
+                    <p className='mt-2 text-sm text-slate-300/85'>Tailored planning, consultation prep, client-first service and actionable insights.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </header>
+
+          <section id='about' className='mt-6 rounded-[30px] bg-white/5 p-6 backdrop-blur-xl sm:p-7'>
+            <div className='space-y-4'>
+              <p className='text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-100/80'>About Tabither</p>
+              <h2 className='text-3xl font-semibold text-white'>A trusted banking partner for confident decisions</h2>
+              <p className='max-w-2xl text-sm leading-7 text-slate-200/80'>
+                Tabither combines deep banking experience with a personal, client-centered approach to help you choose the right financial path, manage risk, and prepare for what comes next.
+              </p>
+            </div>
+          </section>
 
           <section className='mt-6 rounded-[30px] border border-white/10 bg-white/5 p-6 shadow-[0_30px_120px_rgba(11,18,32,0.45)] backdrop-blur-xl sm:p-7'>
             <div className='space-y-5'>
@@ -167,6 +188,73 @@ function App() {
                     <h3 className='mt-3 text-lg font-semibold text-white'>{item.role}</h3>
                     <p className='mt-2 text-sm leading-6 text-slate-300/85'>{item.achievement}</p>
                   </article>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className='mt-6 rounded-[30px] border border-white/10 bg-white/5 p-6 shadow-[0_30px_120px_rgba(11,18,32,0.45)] backdrop-blur-xl sm:p-7'>
+            <div className='space-y-5'>
+              <div className='space-y-2'>
+                <p className='text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-100/80'>Banking insights</p>
+                <h2 className='text-2xl font-semibold text-white sm:text-3xl'>Practical industry focus for better decision making</h2>
+                <p className='max-w-2xl text-sm leading-6 text-slate-200/80'>Explore the key areas where Tabither helps clients translate banking expertise into everyday financial confidence.</p>
+              </div>
+
+              <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
+                {bankingInsights.map((item) => (
+                  <article key={item.title} className='rounded-3xl border border-white/10 bg-slate-950/65 p-5 transition hover:-translate-y-1 hover:border-cyan-300/40 hover:bg-slate-950/80'>
+                    <h3 className='text-lg font-semibold text-white'>{item.title}</h3>
+                    <p className='mt-2 text-sm leading-6 text-slate-300/85'>{item.text}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className='mt-6 rounded-[30px] border border-white/10 bg-white/5 p-6 shadow-[0_30px_120px_rgba(11,18,32,0.45)] backdrop-blur-xl sm:p-7'>
+            <div className='space-y-5'>
+              <div className='space-y-2'>
+                <p className='text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-100/80'>Trending banking topics</p>
+                <h2 className='text-2xl font-semibold text-white sm:text-3xl'>Keep up with what matters now</h2>
+                <p className='max-w-2xl text-sm leading-6 text-slate-200/80'>Short briefs that help clients understand current banking priorities and practical next steps.</p>
+              </div>
+
+              <div className='grid gap-4 md:grid-cols-3'>
+                {trendingTopics.map((item) => (
+                  <article key={item.title} className='rounded-3xl border border-white/10 bg-slate-950/65 p-5 transition hover:-translate-y-1 hover:border-cyan-300/40 hover:bg-slate-950/80'>
+                    <h3 className='text-lg font-semibold text-white'>{item.title}</h3>
+                    <p className='mt-2 text-sm leading-6 text-slate-300/85'>{item.text}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className='mt-6 rounded-[30px] border border-white/10 bg-white/5 p-6 shadow-[0_30px_120px_rgba(11,18,32,0.45)] backdrop-blur-xl sm:p-7'>
+            <div className='space-y-5'>
+              <div className='space-y-2'>
+                <p className='text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-100/80'>FAQ</p>
+                <h2 className='text-2xl font-semibold text-white sm:text-3xl'>Common banking questions answered</h2>
+                <p className='max-w-2xl text-sm leading-6 text-slate-200/80'>Frequently asked questions to help visitors understand the value of working with Tabither and banking guidance.</p>
+              </div>
+
+              <div className='space-y-3'>
+                {faqItems.map((item, index) => (
+                  <button
+                    key={item.question}
+                    type='button'
+                    onClick={() => setActiveFaq(activeFaq === index ? null : index)}
+                    className='w-full rounded-3xl border border-white/10 bg-slate-950/70 p-5 text-left transition hover:border-cyan-300/40 hover:bg-slate-950/80'
+                  >
+                    <div className='flex items-center justify-between gap-4'>
+                      <span className='text-base font-semibold text-white'>{item.question}</span>
+                      <span className='text-cyan-300'>{activeFaq === index ? '−' : '+'}</span>
+                    </div>
+                    {activeFaq === index && (
+                      <p className='mt-4 text-sm leading-6 text-slate-300/85'>{item.answer}</p>
+                    )}
+                  </button>
                 ))}
               </div>
             </div>
@@ -260,6 +348,38 @@ function App() {
               </div>
             </aside>
           </main>
+
+          <section ref={scheduleRef} id='contact' className='mt-6 rounded-[30px] border border-white/10 bg-white/5 p-6 shadow-[0_30px_120px_rgba(11,18,32,0.45)] backdrop-blur-xl sm:p-7'>
+            <div className='space-y-6'>
+              <div className='rounded-3xl border border-cyan-300/20 bg-slate-950/70 p-5'>
+                <p className='text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-100/80'>Schedule now</p>
+                <h2 className='mt-3 text-2xl font-semibold text-white sm:text-3xl'>One place for contact and booking</h2>
+                <p className='mt-2 text-sm leading-6 text-slate-200/80'>
+                  This section is now built into the main page so you can review contact details and book a consultation without navigating away.
+                </p>
+              </div>
+
+              <div className='grid gap-4 md:grid-cols-3'>
+                {contactDetails.map((detail) => (
+                  <a
+                    key={detail.type}
+                    href={detail.href}
+                    target={detail.type === 'Calendly' ? '_blank' : undefined}
+                    rel={detail.type === 'Calendly' ? 'noreferrer' : undefined}
+                    className='rounded-3xl border border-white/10 bg-slate-950/70 p-5 transition hover:border-cyan-300/40 hover:bg-slate-950/80'
+                  >
+                    <p className='text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-100/80'>{detail.type}</p>
+                    <p className='mt-2 text-lg font-semibold text-white'>{detail.label}</p>
+                    <p className='mt-1 text-sm text-slate-300/85'>{detail.value}</p>
+                  </a>
+                ))}
+              </div>
+
+              <div className='rounded-3xl border border-white/10 bg-slate-950/60 p-5'>
+                <p className='text-sm text-slate-300/85'>Prefer a direct conversation? Use the phone or email details above, or open Calendly to set up a time that works for you.</p>
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
