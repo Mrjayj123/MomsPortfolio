@@ -107,14 +107,8 @@ function App() {
             <div className='w-full px-4'>
               <div className='flex items-center justify-between mb-8'>
                 <p className='inline-flex rounded-full bg-white/10 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-cyan-100/90'>
-                  Tabison Enterprises
+                  Tabither Maguke
                 </p>
-
-                <nav className='hidden sm:flex sm:flex-1 sm:justify-center gap-8 text-sm text-slate-200'>
-                  <a href='#top' className='transition hover:text-white'>Home</a>
-                  <a href='#about' className='transition hover:text-white'>About</a>
-                  <a href='#overview' className='transition hover:text-white'>Services</a>
-                </nav>
 
                 <div className='flex gap-3'>
                   <button
@@ -160,13 +154,39 @@ function App() {
             </div>
           </header>
 
+          <section className='mt-8 rounded-[30px] bg-white/5 p-6 shadow-[0_30px_120px_rgba(11,18,32,0.45)] backdrop-blur-xl sm:p-7'>
+            <div className='space-y-9 text-center'>
+              <div className='space-y-2'>
+                <p className='text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-100/80'>Real-time market data</p>
+                <h2 className='text-3xl font-semibold text-white sm:text-3xl'>Live currency rates at a glance</h2>
+                <p className='max-w-2xl mx-auto text-sm leading-6 text-slate-200/80'>Stay informed with up-to-date FX rates refreshing every 15 seconds, helping you make informed financial decisions.</p>
+              </div>
+              <MarketPricesBar 
+                base='USD' 
+                symbols={['EUR', 'GBP', 'JPY', 'CAD', 'KES']} 
+                refreshMs={15000}
+              />
+            </div>
+          </section>
+
           <section id='about' className='mt-6 rounded-[30px] bg-white/5 p-6 backdrop-blur-xl sm:p-7'>
-            <div className='space-y-4'>
-              <p className='text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-100/80'>About Tabither</p>
-              <h2 className='text-3xl font-semibold text-white'>A trusted banking partner for confident decisions</h2>
-              <p className='max-w-2xl text-sm leading-7 text-slate-200/80'>
-                Tabither combines deep banking experience with a personal, client-centered approach to help you choose the right financial path, manage risk, and prepare for what comes next.
-              </p>
+            <div className='md:flex md:items-center md:gap-6'>
+              <div className='flex-shrink-0 mx-auto md:mx-0'>
+                <img
+                  src='/tabither.jpg'
+                  alt='Tabither'
+                  className='rounded-full object-cover border border-white/10 shadow-sm'
+                  style={{ width: 500, height: 500 }}
+                />
+              </div>
+
+              <div className='mt-4 md:mt-20 space-y-10 text-center md:text-left'>
+                <p className=' text-[20px] font-semibold uppercase tracking-[0.28em] text-cyan-100/80 text-center'>About Tabither</p>
+                <h2 className='text-3xl font-semibold text-white'>A trusted banking partner for confident decisions</h2>
+                <p className='max-w-2xl text-sm leading-7 text-slate-200/80'>
+                  I combine deep banking experience with a personal, client-centered approach to help you choose the right financial path, manage risk, and prepare for what comes next.
+                </p>
+              </div>
             </div>
           </section>
 
@@ -335,12 +355,7 @@ function App() {
                 </div>
 
                 <div className='grid gap-3 sm:grid-cols-2'>
-                  <button
-                    onClick={goToSchedule}
-                    className='inline-flex items-center justify-center rounded-full bg-cyan-300 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200'
-                  >
-                    Schedule now
-                  </button>
+              
                   <a href='#overview' className='inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white/90 transition hover:bg-white/10'>
                     Learn more
                   </a>
